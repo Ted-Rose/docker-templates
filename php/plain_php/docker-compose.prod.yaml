@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  php:
+    build:
+      context: ./php_files
+      dockerfile: Dockerfile
+    container_name: php
+    networks:
+      - php-network
+
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx_files
+      dockerfile: Dockerfile
+    # Make service avaiable on port 180 on host machine (your computer)
+    # in case if port 80 is blocked another service (like Apache)
+    ports:
+      - '180:80'
+    networks:
+      - php-network
+
+networks:
+  php-network:
+    driver: bridge
